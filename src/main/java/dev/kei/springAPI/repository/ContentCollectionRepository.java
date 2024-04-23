@@ -31,4 +31,30 @@ public class ContentCollectionRepository {
                 LocalDateTime.now(), "");
         this.content.add(c);
     }
+
+    public Content save(Content c) {
+        this.content.add(c);
+        return c;
+    }
+
+    public Content update(Integer id, Content newContent) {
+        Optional<Content> existingContent = findContentById(id);
+
+        if (existingContent.isPresent()) {
+            Content updatedContent = existingContent.get()
+                    .withTitle(newContent.title())
+                    .withDescription(newContent.description())
+                    .withStatus(newContent.status())
+                    .withContentType(newContent.contentType())
+                    .withCreatedAt(newContent.createdAt())
+                    .withUpdatedAt(LocalDateTime.now()) // Assuming updatedAt should be updated to current time
+                    .withUrl(newContent.url());
+
+            content.replaceAll(c -> c.id().equals(id) ? updatedContent : c);
+            return updatedContent;
+        } else {
+            throw new IllegalArgumentException("Content not found with id: " + id);
+        }
+    }
+
 }
