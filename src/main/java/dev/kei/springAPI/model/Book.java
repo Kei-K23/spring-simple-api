@@ -1,11 +1,13 @@
 package dev.kei.springAPI.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Book {
     @Id
     private Long id;
+    @NotEmpty
     private String title;
     private String author;
 
